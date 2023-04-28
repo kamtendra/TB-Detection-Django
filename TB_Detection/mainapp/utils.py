@@ -4,14 +4,30 @@ from keras.preprocessing import image
 import matplotlib.pyplot as plt
 import os
 import cv2
+import boto3
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+)
+
+s3.download_file('tb-detection', 'TB.h5', 'TB.h5')
+s3.download_file('tb-detection', 'tuberculosis.h5', 'tuberculosis.h5')
+s3.download_file('tb-detection', 'my_model2.hdf5', 'my_model2.hdf5')
 
 model_path = r'C:\Users\kamte\OneDrive\Documents\Desktop\TB Detection\TB_Detection\mainapp\TB detect model'
 model = load_model(model_path)
 # model.summary()
 
-model2 = load_model("C:\\Users\\kamte\\Downloads\\TB.h5")
-model3 = load_model("C:\\Users\\kamte\\Downloads\\tuberculosis.h5")
-model4 = load_model("C:\\Users\\kamte\\Downloads\\my_model2.hdf5")
+model2 = load_model(r'C:\Users\kamte\OneDrive\Documents\Desktop\TB Detection\TB_Detection\TB.h5')
+model3 = load_model(r'C:\Users\kamte\OneDrive\Documents\Desktop\TB Detection\TB_Detection\tuberculosis.h5')
+model4 = load_model(r'C:\Users\kamte\OneDrive\Documents\Desktop\TB Detection\TB_Detection\my_model2.hdf5')
 
 def load_img(image_path):
   test_data = []
